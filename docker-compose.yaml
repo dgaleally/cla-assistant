@@ -1,0 +1,36 @@
+version: '3.7'
+
+networks:
+  techlabs:
+    name: techlabs
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    volumes:
+      - mongodb_volume:/data/db
+    networks:
+      - techlabs
+    ports:
+      - 27017:27017
+
+  cla-assistant:
+    container_name: cla-assistant
+    build: .
+    image: cla-assistant:latest
+    environment:
+      - PORT=5000
+      - PROTOCOL=http
+      - HOST=localhost
+      - MONGODB=mongodb://mongo/cla-assistant
+      - GITHUB_CLIENT
+      - GITHUB_SECRET
+      - GITHUB_TOKEN
+    ports:
+      - 80:5000
+    networks:
+      - techlabs
+
+volumes:
+  mongodb_volume:
