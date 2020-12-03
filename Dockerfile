@@ -14,5 +14,7 @@ RUN \
   su-exec cla-assistant /bin/sh -c 'cd /cla-assistant && npm install && node_modules/grunt-cli/bin/grunt build && rm -rf /home/cla-assistant/.npm .git' && \
   apk del git curl bzip2 patch make g++
 
+RUN npm install
+
 USER cla-assistant
 CMD ["npm", "start"]
